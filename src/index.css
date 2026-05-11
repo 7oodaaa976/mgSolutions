@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Tajawal", sans-serif;
+  background: #02040d;
+  color: white;
+  overflow-x: hidden;
+}
+.reveal-perspective {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: rotateY(-12deg) rotateX(4deg) translateY(0);
+  }
+
+  50% {
+    transform: rotateY(-12deg) rotateX(4deg) translateY(-18px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-16px);
+  }
+}
+/* For Loader */
+@keyframes lineMove {
+  0% {
+    left: -40%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+/* Cursor */
+@media (min-width: 1024px) {
+  body {
+    cursor: none;
+  }
+
+  a,
+  button {
+    cursor: none;
+  }
+}
+
+.animated-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -25;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+
+  background-size: 70px 70px;
+
+  mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+  pointer-events: none;
+}
+
+.glow-line {
+  position: fixed;
+  width: 520px;
+  height: 2px;
+  border-radius: 999px;
+  filter: blur(2px);
+  opacity: 0.45;
+  z-index: -20;
+  pointer-events: none;
+}
+
+.glow-line-1 {
+  top: 20%;
+  left: -10%;
+  background: linear-gradient(to right, transparent, #2f8cff, transparent);
+  animation: glowMove1 9s linear infinite;
+}
+
+.glow-line-2 {
+  bottom: 18%;
+  right: -10%;
+  background: linear-gradient(to right, transparent, #b041ff, transparent);
+  animation: glowMove2 12s linear infinite;
+}
+
+@keyframes glowMove1 {
+  from {
+    transform: translateX(-120px);
+  }
+
+  to {
+    transform: translateX(260px);
+  }
+}
+
+@keyframes glowMove2 {
+  from {
+    transform: translateX(160px);
+  }
+
+  to {
+    transform: translateX(-220px);
+  }
+}
