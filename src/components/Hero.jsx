@@ -94,7 +94,7 @@ export default function Hero() {
     max-xl:grid-cols-1 max-xl:pt-16
     max-md:w-[calc(100%-28px)]">
             <section className="relative z-10 pt-8">
-                <h1 className=" hero-title max-w-[680px] text-[clamp(48px,6vw,92px)] font-black leading-[1.08] tracking-[-2px] text-white">
+                <h1 className=" hero-title max-w-[680px] text-[clamp(48px,6vw,60px)] font-black leading-[1.08] tracking-[-2px] text-white">
                     نحول فكرتك
                     <span className="block w-fit bg-gradient-to-r from-[#2f8cff] via-[#b041ff] to-[#ff4fd8] bg-clip-text text-transparent">
                         لمنتج رقمي
@@ -102,7 +102,7 @@ export default function Hero() {
                     يشتغل ويبيع
                 </h1>
 
-                <p className="my-8 max-w-[590px] text-[21px] leading-[1.9] text-[#a9adbd] max-md:text-lg">
+                <p className="my-8 max-w-[590px] text-[18px] leading-[1.9] text-[#a9adbd] max-md:text-lg">
                     بنصمم ونطور مواقع، أنظمة إدارة، حلول كاشير، تطبيقات سطح مكتب،
                     وهوية بصرية تساعد مشروعك يظهر بشكل أقوى ويشتغل بكفاءة.
                 </p>
