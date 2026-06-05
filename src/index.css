@@ -344,3 +344,24 @@ body {
     opacity: 0.32;
   }
 }
+@keyframes lineMove {
+  from {
+    left: -45%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes loaderPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 80px rgba(176, 65, 255, 0.25);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 130px rgba(47, 140, 255, 0.45);
+  }
+}

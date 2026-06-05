@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SectionBadge from "./SectionBadge";
 import useReveal from "../hooks/useReveal";
 import useTextReveal from "../hooks/useTextReveal";
+
 const works = [
   {
     title: "Simulator Egypt",
@@ -11,7 +12,6 @@ const works = [
     video: "/projects/company/preview.mp4",
     images: ["/projects/company/company-1.png", "/projects/company/company-2.png"],
     techs: ["React", "Tailwind", "Industrial UI", "Laravel"],
-    live: "https://simulatoregypt.com/",
   },
   {
     title: "AI Dashboard",
@@ -21,7 +21,6 @@ const works = [
     video: "/projects/dashboard/preview.mp4",
     images: ["/projects/dashboard/dash-1.png", "/projects/dashboard/dash-2.png"],
     techs: ["React", "Tailwind", "LocalStorage"],
-    live: "https://personal-dash-lime.vercel.app/",
   },
   {
     title: "Movista",
@@ -30,7 +29,6 @@ const works = [
     video: "/projects/movista/preview.mp4",
     images: ["/projects/movista/movi-1.png", "/projects/movista/movi-2.png"],
     techs: ["React", "TMDB API", "Tailwind", "Responsive UI"],
-    live: "https://movista-self.vercel.app/",
   },
   {
     title: "Rehlatk",
@@ -39,7 +37,6 @@ const works = [
     video: "/projects/travel/preview.mp4",
     images: ["/projects/travel/re-1.png", "/projects/travel/re-2.png"],
     techs: ["HTML", "CSS", "JavaScript"],
-    live: "https://rehlatk.vercel.app/",
   },
 ];
 
@@ -48,6 +45,7 @@ export default function Works() {
 
   const featuredWorks = works.filter((work) => work.featured);
   const normalWorks = works.filter((work) => !work.featured);
+
   useReveal(".project-reveal");
   useTextReveal(".cinematic-title");
 
@@ -59,7 +57,7 @@ export default function Works() {
       <div className="mx-auto mb-14 max-w-[760px] text-center max-md:mb-10">
         <SectionBadge text="أعمالنا" />
 
-        <h2 className=" cinematic-title text-[clamp(34px,4vw,58px)] font-black leading-[1.2] text-white max-md:text-[32px]">
+        <h2 className="cinematic-title text-[clamp(34px,4vw,58px)] font-black leading-[1.2] text-white max-md:text-[32px]">
           مشاريع بتعرض قوة التصميم والتجربة
         </h2>
 
@@ -68,38 +66,18 @@ export default function Works() {
         </p>
       </div>
 
-      <div className="mb-12">
-        <h3 className="mb-6 text-3xl font-black text-white max-md:text-2xl">
-          Featured Projects
-        </h3>
+      <ProjectsGroup
+        title="Featured Projects"
+        projects={featuredWorks}
+        featured
+        onSelect={setSelectedProject}
+      />
 
-        <div className="grid grid-cols-2 gap-6 max-lg:grid-cols-1">
-          {featuredWorks.map((work) => (
-            <ProjectCard
-              key={work.title}
-              work={work}
-              featured
-              onDetails={() => setSelectedProject(work)}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="mb-6 text-3xl font-black text-white max-md:text-2xl">
-          Other Projects
-        </h3>
-
-        <div className="grid grid-cols-2 gap-6 max-lg:grid-cols-1">
-          {normalWorks.map((work) => (
-            <ProjectCard
-              key={work.title}
-              work={work}
-              onDetails={() => setSelectedProject(work)}
-            />
-          ))}
-        </div>
-      </div>
+      <ProjectsGroup
+        title="Other Projects"
+        projects={normalWorks}
+        onSelect={setSelectedProject}
+      />
 
       <div className="mt-12 rounded-[30px] border border-white/15 bg-[radial-gradient(circle_at_50%_0,rgba(176,65,255,.28),transparent_40%),linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025))] p-8 text-center backdrop-blur-xl max-md:p-6">
         <h3 className="text-3xl font-black text-white max-md:text-2xl">
@@ -128,13 +106,35 @@ export default function Works() {
   );
 }
 
+function ProjectsGroup({ title, projects, featured = false, onSelect }) {
+  return (
+    <div className={featured ? "mb-12" : ""}>
+      <h3 className="mb-6 text-3xl font-black text-white max-md:text-2xl">
+        {title}
+      </h3>
+
+      <div className="grid grid-cols-2 gap-6 max-lg:grid-cols-1">
+        {projects.map((work) => (
+          <ProjectCard
+            key={work.title}
+            work={work}
+            featured={featured}
+            onDetails={() => onSelect(work)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ProjectCard({ work, featured = false, onDetails }) {
   return (
-    <article className="group  overflow-hidden rounded-[30px] border border-white/15 bg-[linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025))] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[#b041ff]/50 hover:shadow-[0_0_55px_rgba(176,65,255,.16)]">
+    <article className="project-reveal group overflow-hidden rounded-[30px] border border-white/15 bg-[linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025))] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[#b041ff]/50 hover:shadow-[0_0_55px_rgba(176,65,255,.16)]">
       <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#080b18]">
         <div
-          className={`relative overflow-hidden ${featured ? "h-[320px]" : "h-[250px]"
-            } max-md:h-[220px]`}
+          className={`relative overflow-hidden ${
+            featured ? "h-[320px]" : "h-[250px]"
+          } max-md:h-[220px]`}
         >
           <video
             autoPlay
@@ -147,7 +147,7 @@ function ProjectCard({ work, featured = false, onDetails }) {
             <source src={work.video} type="video/mp4" />
           </video>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-white/5"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-white/5" />
 
           <span className="absolute right-4 top-4 rounded-full border border-white/15 bg-black/35 px-4 py-2 text-xs font-black text-white backdrop-blur">
             {work.tag}
@@ -169,10 +169,11 @@ function ProjectCard({ work, featured = false, onDetails }) {
               <img
                 src={img}
                 alt={`${work.title} screenshot ${index + 1}`}
+                loading="lazy"
                 className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
             </div>
           ))}
         </div>
@@ -180,8 +181,9 @@ function ProjectCard({ work, featured = false, onDetails }) {
 
       <div className="px-2 pt-6">
         <h3
-          className={`mb-3 font-black text-white ${featured ? "text-[34px]" : "text-[28px]"
-            } max-md:text-2xl`}
+          className={`mb-3 font-black text-white ${
+            featured ? "text-[34px]" : "text-[28px]"
+          } max-md:text-2xl`}
         >
           {work.title}
         </h3>
@@ -190,7 +192,7 @@ function ProjectCard({ work, featured = false, onDetails }) {
           {work.text}
         </p>
 
-        <div className="mt-5  flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap gap-2">
           {work.techs.map((tech) => (
             <span
               key={tech}
@@ -203,20 +205,11 @@ function ProjectCard({ work, featured = false, onDetails }) {
           ))}
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-3 max-sm:grid-cols-1">
-          <a
-            href={work.live}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-[#2f8cff] to-[#b041ff] py-3 font-black text-white transition hover:-translate-y-1"
-          >
-            Live Preview
-          </a>
-
+        <div className="mt-6">
           <button
             type="button"
             onClick={onDetails}
-            className="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 py-3 font-black text-white transition hover:-translate-y-1 hover:bg-white/10"
+            className="inline-flex w-full items-center justify-center rounded-2xl border border-white/15 bg-white/5 py-3 font-black text-white transition hover:-translate-y-1 hover:border-[#b041ff]/50 hover:bg-white/10"
           >
             Details
           </button>
@@ -227,12 +220,45 @@ function ProjectCard({ work, featured = false, onDetails }) {
 }
 
 function ProjectModal({ project, onClose }) {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    modalRef.current?.focus();
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/75 p-5 backdrop-blur-md">
-      <div className="relative max-h-[90vh] w-full max-w-[980px] overflow-y-auto rounded-[32px] border border-white/15 bg-[#070a18] p-5 shadow-[0_0_80px_rgba(47,140,255,.18)]">
+    <div
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-5 backdrop-blur-md"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
+    >
+      <div
+        ref={modalRef}
+        tabIndex={-1}
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-h-[90vh] w-full max-w-[980px] overflow-y-auto rounded-[32px] border border-white/15 bg-[#070a18] p-5 shadow-[0_0_80px_rgba(47,140,255,.18)] outline-none max-md:rounded-[24px] max-md:p-4"
+      >
         <button
+          type="button"
           onClick={onClose}
-          className="absolute left-5 top-5 z-10 grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-white/10 text-xl font-black text-white transition hover:bg-white/20"
+          aria-label="Close modal"
+          className="absolute left-5 top-5 z-10 grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-black/40 text-2xl font-black text-white backdrop-blur transition hover:bg-white/20"
         >
           ×
         </button>
@@ -254,6 +280,7 @@ function ProjectModal({ project, onClose }) {
               key={img}
               src={img}
               alt={`${project.title} preview ${index + 1}`}
+              loading="lazy"
               className="h-[220px] w-full rounded-[22px] border border-white/10 object-cover max-md:h-[170px]"
             />
           ))}
@@ -264,7 +291,10 @@ function ProjectModal({ project, onClose }) {
             {project.tag}
           </span>
 
-          <h3 className="mt-4 text-4xl font-black text-white max-md:text-3xl">
+          <h3
+            id="project-modal-title"
+            className="mt-4 text-4xl font-black text-white max-md:text-3xl"
+          >
             {project.title}
           </h3>
 
@@ -285,14 +315,13 @@ function ProjectModal({ project, onClose }) {
             ))}
           </div>
 
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-[#2f8cff] to-[#b041ff] py-4 font-black text-white transition hover:-translate-y-1"
+          <button
+            type="button"
+            onClick={onClose}
+            className="mt-7 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-[#2f8cff] to-[#b041ff] py-4 font-black text-white transition hover:-translate-y-1"
           >
-            فتح المشروع
-          </a>
+            إغلاق التفاصيل
+          </button>
         </div>
       </div>
     </div>

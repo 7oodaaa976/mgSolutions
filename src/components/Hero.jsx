@@ -2,6 +2,7 @@ import { useRef } from "react";
 import MagneticButton from './MagneticButton';
 import gsap from "gsap";
 import { useEffect } from "react";
+import CodeRainBackground from "./CodeRainBackground";
 
 export default function Hero() {
     const cardRef = useRef(null);
@@ -89,11 +90,14 @@ export default function Hero() {
 }, []);
 
     return (
-        <main id="home" className=" mx-auto grid min-h-[calc(100vh-150px)] w-[calc(100%-120px)]
+        <main id="home" className="relative overflow-hidden mx-auto grid min-h-[calc(100vh-150px)] w-[calc(100%-120px)]
     grid-cols-[0.9fr_1.1fr] items-center gap-8
     max-xl:grid-cols-1 max-xl:pt-16
     max-md:w-[calc(100%-28px)]">
+          <CodeRainBackground />
+
             <section className="relative z-10 pt-8">
+                
                 <h1 className=" hero-title max-w-[680px] text-[clamp(48px,6vw,60px)] font-black leading-[1.08] tracking-[-2px] text-white">
                     نحول فكرتك
                     <span className="block w-fit bg-gradient-to-r from-[#2f8cff] via-[#b041ff] to-[#ff4fd8] bg-clip-text text-transparent">
