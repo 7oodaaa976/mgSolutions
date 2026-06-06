@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import SectionBadge from "./SectionBadge";
 import useReveal from "../hooks/useReveal";
 import useTextReveal from "../hooks/useTextReveal";
+import { useLanguage } from "../context/LanguageContext";
 
 const works = [
   {
@@ -41,6 +42,9 @@ const works = [
 ];
 
 export default function Works() {
+  const { dir, t } = useLanguage();
+  const worksText = t.works;
+
   const [selectedProject, setSelectedProject] = useState(null);
 
   const featuredWorks = works.filter((work) => work.featured);
@@ -52,53 +56,57 @@ export default function Works() {
   return (
     <section
       id="works"
+      dir={dir}
       className="relative z-10 mx-auto my-24 w-[calc(100%-120px)] max-xl:w-[calc(100%-40px)] max-md:my-16 max-md:w-[calc(100%-28px)]"
     >
-      <div className="mx-auto mb-14 max-w-[760px] text-center max-md:mb-10">
-        <SectionBadge text="أعمالنا" />
+      <div className="mx-auto mb-14 max-w-3xl text-center max-md:mb-10">
+        <SectionBadge text={worksText.badge} />
 
-        <h2 className="cinematic-title text-[clamp(34px,4vw,58px)] font-black leading-[1.2] text-white max-md:text-[32px]">
-          مشاريع بتعرض قوة التصميم والتجربة
+        <h2 className="cinematic-title text-[clamp(34px,4vw,58px)] font-black leading-tight text-white max-md:text-3xl">
+          {worksText.title}
         </h2>
 
-        <p className="mt-5 text-xl leading-[1.9] text-[#a9adbd] max-md:text-base">
-          معاينات حية للمشاريع توضح الحركة، التجاوب، وطريقة عرض المحتوى داخل كل تجربة.
+        <p className="mt-5 text-xl leading-9 text-[#a9adbd] max-md:text-base">
+          {worksText.desc}
         </p>
       </div>
 
       <ProjectsGroup
-        title="Featured Projects"
+        title={worksText.featuredProjects}
         projects={featuredWorks}
         featured
+        worksText={worksText}
         onSelect={setSelectedProject}
       />
 
       <ProjectsGroup
-        title="Other Projects"
+        title={worksText.otherProjects}
         projects={normalWorks}
+        worksText={worksText}
         onSelect={setSelectedProject}
       />
 
       <div className="mt-12 rounded-[30px] border border-white/15 bg-[radial-gradient(circle_at_50%_0,rgba(176,65,255,.28),transparent_40%),linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025))] p-8 text-center backdrop-blur-xl max-md:p-6">
         <h3 className="text-3xl font-black text-white max-md:text-2xl">
-          عندك فكرة مشروع مشابهة؟
+          {worksText.ctaTitle}
         </h3>
 
-        <p className="mx-auto mt-4 max-w-[650px] text-lg leading-[1.8] text-[#a9adbd] max-md:text-base">
-          نقدر نحول فكرتك لتجربة رقمية منظمة، سريعة، ومناسبة لهدف مشروعك.
+        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[#a9adbd] max-md:text-base">
+          {worksText.ctaDesc}
         </p>
 
         <a
           href="#contact"
           className="mt-6 inline-flex rounded-2xl bg-gradient-to-r from-[#2f8cff] to-[#b041ff] px-8 py-4 font-black text-white transition hover:-translate-y-1"
         >
-          ابدأ مشروعك الآن
+          {worksText.ctaBtn}
         </a>
       </div>
 
       {selectedProject && (
         <ProjectModal
           project={selectedProject}
+          worksText={worksText}
           onClose={() => setSelectedProject(null)}
         />
       )}
@@ -106,7 +114,7 @@ export default function Works() {
   );
 }
 
-function ProjectsGroup({ title, projects, featured = false, onSelect }) {
+function ProjectsGroup({ title, projects, featured = false, worksText, onSelect }) {
   return (
     <div className={featured ? "mb-12" : ""}>
       <h3 className="mb-6 text-3xl font-black text-white max-md:text-2xl">
@@ -119,6 +127,7 @@ function ProjectsGroup({ title, projects, featured = false, onSelect }) {
             key={work.title}
             work={work}
             featured={featured}
+            worksText={worksText}
             onDetails={() => onSelect(work)}
           />
         ))}
@@ -127,14 +136,14 @@ function ProjectsGroup({ title, projects, featured = false, onSelect }) {
   );
 }
 
-function ProjectCard({ work, featured = false, onDetails }) {
+function ProjectCard({ work, featured = false, worksText, onDetails }) {
   return (
     <article className="project-reveal group overflow-hidden rounded-[30px] border border-white/15 bg-[linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025))] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[#b041ff]/50 hover:shadow-[0_0_55px_rgba(176,65,255,.16)]">
       <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#080b18]">
         <div
           className={`relative overflow-hidden ${
-            featured ? "h-[320px]" : "h-[250px]"
-          } max-md:h-[220px]`}
+            featured ? "h-80" : "h-[250px]"
+          } max-md:h-56`}
         >
           <video
             autoPlay
@@ -155,7 +164,7 @@ function ProjectCard({ work, featured = false, onDetails }) {
 
           {featured && (
             <span className="absolute left-4 top-4 rounded-full bg-gradient-to-r from-[#ff4fd8] to-[#b041ff] px-4 py-2 text-xs font-black text-white">
-              Featured
+              {worksText.featured}
             </span>
           )}
         </div>
@@ -164,7 +173,7 @@ function ProjectCard({ work, featured = false, onDetails }) {
           {work.images.map((img, index) => (
             <div
               key={img}
-              className="relative h-[105px] overflow-hidden rounded-[18px] border border-white/10 bg-[#070a15] max-md:h-[95px]"
+              className="relative h-28 overflow-hidden rounded-[18px] border border-white/10 bg-[#070a15] max-md:h-24"
             >
               <img
                 src={img}
@@ -182,13 +191,13 @@ function ProjectCard({ work, featured = false, onDetails }) {
       <div className="px-2 pt-6">
         <h3
           className={`mb-3 font-black text-white ${
-            featured ? "text-[34px]" : "text-[28px]"
+            featured ? "text-3xl" : "text-[28px]"
           } max-md:text-2xl`}
         >
           {work.title}
         </h3>
 
-        <p className="text-[17px] leading-[1.8] text-[#a9adbd] max-md:text-base">
+        <p className="text-[17px] leading-8 text-[#a9adbd] max-md:text-base">
           {work.text}
         </p>
 
@@ -211,7 +220,7 @@ function ProjectCard({ work, featured = false, onDetails }) {
             onClick={onDetails}
             className="inline-flex w-full items-center justify-center rounded-2xl border border-white/15 bg-white/5 py-3 font-black text-white transition hover:-translate-y-1 hover:border-[#b041ff]/50 hover:bg-white/10"
           >
-            Details
+            {worksText.details}
           </button>
         </div>
       </div>
@@ -219,7 +228,7 @@ function ProjectCard({ work, featured = false, onDetails }) {
   );
 }
 
-function ProjectModal({ project, onClose }) {
+function ProjectModal({ project, worksText, onClose }) {
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -252,13 +261,13 @@ function ProjectModal({ project, onClose }) {
         ref={modalRef}
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="relative max-h-[90vh] w-full max-w-[980px] overflow-y-auto rounded-[32px] border border-white/15 bg-[#070a18] p-5 shadow-[0_0_80px_rgba(47,140,255,.18)] outline-none max-md:rounded-[24px] max-md:p-4"
+        className="relative max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[32px] border border-white/15 bg-[#070a18] p-5 shadow-[0_0_80px_rgba(47,140,255,.18)] outline-none max-md:rounded-[24px] max-md:p-4"
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close modal"
-          className="absolute left-5 top-5 z-10 grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-black/40 text-2xl font-black text-white backdrop-blur transition hover:bg-white/20"
+          className="absolute left-5 top-5 z-10 grid size-11 place-items-center rounded-full border border-white/15 bg-black/40 text-2xl font-black text-white backdrop-blur transition hover:bg-white/20"
         >
           ×
         </button>
@@ -269,7 +278,7 @@ function ProjectModal({ project, onClose }) {
           loop
           playsInline
           poster={project.images[0]}
-          className="h-[420px] w-full rounded-[24px] border border-white/10 object-cover max-md:h-[240px]"
+          className="h-[420px] w-full rounded-[24px] border border-white/10 object-cover max-md:h-60"
         >
           <source src={project.video} type="video/mp4" />
         </video>
@@ -281,7 +290,7 @@ function ProjectModal({ project, onClose }) {
               src={img}
               alt={`${project.title} preview ${index + 1}`}
               loading="lazy"
-              className="h-[220px] w-full rounded-[22px] border border-white/10 object-cover max-md:h-[170px]"
+              className="h-56 w-full rounded-[22px] border border-white/10 object-cover max-md:h-44"
             />
           ))}
         </div>
@@ -298,7 +307,7 @@ function ProjectModal({ project, onClose }) {
             {project.title}
           </h3>
 
-          <p className="mt-4 text-lg leading-[1.9] text-[#a9adbd] max-md:text-base">
+          <p className="mt-4 text-lg leading-9 text-[#a9adbd] max-md:text-base">
             {project.text}
           </p>
 
@@ -320,7 +329,7 @@ function ProjectModal({ project, onClose }) {
             onClick={onClose}
             className="mt-7 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-[#2f8cff] to-[#b041ff] py-4 font-black text-white transition hover:-translate-y-1"
           >
-            إغلاق التفاصيل
+            {worksText.closeModal}
           </button>
         </div>
       </div>

@@ -1,29 +1,13 @@
-const contactOptions = [
-  {
-    label: "WhatsApp",
-    value: "رد سريع ومباشر",
-    href: "https://wa.me/201212694594",
-    icon: "↗",
-  },
-  {
-    label: "Project Brief",
-    value: "ابعت تفاصيل فكرتك",
-    href: "https://wa.me/201212694594?text=السلام عليكم، عندي فكرة مشروع وعايز أعرف التفاصيل.",
-    icon: "✦",
-  },
-  {
-    label: "Portfolio",
-    value: "شوف الأعمال الأول",
-    href: "#works",
-    icon: "↓",
-  },
-];
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Contact() {
+  const { dir, lang, t } = useLanguage();
+  const contact = t.contact;
+
   return (
     <section
       id="contact"
-      dir="rtl"
+      dir={dir}
       className="
         relative z-10 mx-auto my-24 w-[calc(100%-120px)]
         max-xl:w-[calc(100%-40px)]
@@ -46,29 +30,20 @@ export default function Contact() {
         </div>
 
         <div className="relative grid grid-cols-[1.1fr_.9fr] gap-6 max-lg:grid-cols-1">
-          <div
-            className="
-              relative overflow-hidden rounded-[36px] border border-white/10
-              bg-[#080a16]/75 p-10 backdrop-blur-xl
-              max-md:p-6
-            "
-          >
-           
-
-            <h2 className="max-w-[760px] text-[clamp(36px,5vw,72px)] font-black leading-[1.08] text-white">
-              جاهز نطلق
+          <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#080a16]/75 p-10 backdrop-blur-xl max-md:p-6">
+            <h2 className="max-w-3xl text-[clamp(36px,5vw,72px)] font-black leading-tight text-white">
+              {contact.title1}
               <span className="block bg-gradient-to-r from-[#4DA3FF] via-[#7B5CFF] to-[#FF4FD8] bg-clip-text text-transparent">
-                مشروعك القادم؟
+                {contact.title2}
               </span>
             </h2>
 
-            <p className="mt-6 max-w-[620px] text-xl leading-[1.9] text-[#a9adbd] max-md:text-base">
-              ابعت فكرة المشروع أو نوع الخدمة اللي محتاجها، وهنرتب لك أنسب
-              حل من حيث الشكل، التقنية، وطريقة التنفيذ.
+            <p className="mt-6 max-w-2xl text-xl leading-9 text-[#a9adbd] max-md:text-base">
+              {contact.desc}
             </p>
 
-            <div className="mt-9 grid max-w-[620px] grid-cols-3 gap-3 max-md:grid-cols-1">
-              {contactOptions.map((item) => (
+            <div className="mt-9 grid max-w-2xl grid-cols-3 gap-3 max-md:grid-cols-1">
+              {contact.options.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
@@ -76,12 +51,12 @@ export default function Contact() {
                   rel={item.href.startsWith("http") ? "noreferrer" : undefined}
                   className="
                     group relative overflow-hidden rounded-[24px]
-                    border border-white/10 bg-white/[.045]
+                    border border-white/10 bg-white/5
                     p-5 transition duration-300
                     hover:-translate-y-1 hover:border-[#7B5CFF]/60
                   "
                 >
-                  <span className="mb-5 grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-[#4DA3FF] to-[#7B5CFF] font-black text-white">
+                  <span className="mb-5 grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-[#4DA3FF] to-[#7B5CFF] font-black text-white">
                     {item.icon}
                   </span>
 
@@ -93,14 +68,14 @@ export default function Contact() {
                     {item.value}
                   </p>
 
-                  <span className="absolute bottom-0 right-0 h-[3px] w-0 bg-gradient-to-l from-[#4DA3FF] via-[#7B5CFF] to-[#FF4FD8] transition-all duration-500 group-hover:w-full" />
+                  <span className="absolute bottom-0 right-0 h-1 w-0 bg-gradient-to-l from-[#4DA3FF] via-[#7B5CFF] to-[#FF4FD8] transition-all duration-500 group-hover:w-full" />
                 </a>
               ))}
             </div>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
-                href="https://wa.me/201212694594?text=السلام عليكم، عايز أبدأ مشروع مع MG Solutions."
+                href={contact.mainHref}
                 target="_blank"
                 rel="noreferrer"
                 className="
@@ -110,78 +85,78 @@ export default function Contact() {
                 "
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  ابدأ على واتساب
-                  <span className="transition group-hover:-translate-x-1">
-                    ←
+                  {contact.mainCta}
+                  <span
+                    className={`transition ${
+                      lang === "ar"
+                        ? "group-hover:-translate-x-1"
+                        : "group-hover:translate-x-1"
+                    }`}
+                  >
+                    {lang === "ar" ? "←" : "→"}
                   </span>
                 </span>
+
                 <span className="absolute inset-0 bg-gradient-to-r from-[#2f8cff] via-[#7b5cff] to-[#ff4fd8]" />
               </a>
 
-              <span className="rounded-full border border-white/10 bg-white/[.045] px-5 py-3 text-sm font-bold text-[#a9adbd]">
-                عادة بنبدأ بتحديد المطلوب ثم تصور سريع
+              <span className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-[#a9adbd]">
+                {contact.note}
               </span>
             </div>
 
-            <span className="absolute left-[-60px] bottom-[-60px] h-48 w-48 rounded-full bg-[#FF4FD8]/15 blur-[80px]" />
+            <span className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-[#FF4FD8]/15 blur-[80px]" />
           </div>
 
-          <aside
-            className="
-              relative overflow-hidden rounded-[36px] border border-white/10
-              bg-[#070914]/85 p-8 backdrop-blur-xl
-              max-md:p-6
-            "
-          >
+          <aside className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#070914]/85 p-8 backdrop-blur-xl max-md:p-6">
             <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-6">
               <div>
                 <p className="text-sm font-black uppercase tracking-[3px] text-[#4DA3FF]">
-                  Project Status
+                  {contact.statusLabel}
                 </p>
+
                 <h3 className="mt-2 text-2xl font-black text-white">
-                  Ready To Start
+                  {contact.statusTitle}
                 </h3>
               </div>
 
-              <span className="relative flex h-4 w-4">
+              <span className="relative flex size-4">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4DA3FF] opacity-75" />
-                <span className="relative inline-flex h-4 w-4 rounded-full bg-[#4DA3FF]" />
+                <span className="relative inline-flex size-4 rounded-full bg-[#4DA3FF]" />
               </span>
             </div>
 
             <div className="space-y-4">
-              <InfoRow title="Response Channel" value="WhatsApp" />
-              <InfoRow title="Project Type" value="Website / System / Branding" />
-              <InfoRow title="Direction" value="Arabic RTL First" />
-              <InfoRow title="Next Step" value="Send Project Details" />
+              {contact.rows.map(([title, value]) => (
+                <InfoRow key={title} title={title} value={value} />
+              ))}
             </div>
 
-            <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[.045] p-5">
+            <div className="mt-8 rounded-[28px] border border-white/10 bg-white/5 p-5">
               <p className="mb-4 text-sm font-black uppercase tracking-[3px] text-white/40">
-                Message Template
+                {contact.templateTitle}
               </p>
 
-              <p className="text-[15px] leading-[1.9] text-[#d7d9e6]">
-                السلام عليكم، عندي مشروع وعايز أعرف أنسب حل. نوع المشروع:
-                موقع / نظام / هوية بصرية. التفاصيل هي...
+              <p className="text-[15px] leading-8 text-[#d7d9e6]">
+                {contact.templateText}
               </p>
             </div>
 
             <a
-              href="https://wa.me/201212694594?text=السلام عليكم، عندي مشروع وعايز أعرف أنسب حل. نوع المشروع: "
+              href={contact.templateHref}
               target="_blank"
               rel="noreferrer"
               className="
                 mt-6 flex w-full items-center justify-center rounded-2xl
-                border border-white/15 bg-white/[.06] px-5 py-4
+                border border-white/15 bg-white/5 px-5 py-4
                 font-black text-white transition
                 hover:-translate-y-1 hover:border-[#7B5CFF]/60
               "
             >
-              استخدم الرسالة الجاهزة
+              {contact.templateBtn}
             </a>
 
-            <span className="absolute right-[-50px] top-[-50px] h-40 w-40 rounded-full bg-[#4DA3FF]/15 blur-[70px]" />
+            <span className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#4DA3FF]/15 blur-[70px]" />
           </aside>
         </div>
       </div>
@@ -191,7 +166,7 @@ export default function Contact() {
 
 function InfoRow({ title, value }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[.04] px-5 py-4">
+    <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
       <span className="text-sm font-bold text-[#a9adbd]">{title}</span>
       <strong className="text-sm font-black text-white">{value}</strong>
     </div>

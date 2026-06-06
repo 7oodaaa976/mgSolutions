@@ -1,29 +1,13 @@
-const ideas = [
-  {
-    num: "01",
-    title: "تحليل قبل التنفيذ",
-    text: "نفهم مشروعك، العملاء، طريقة التشغيل، والمشكلة الحقيقية قبل ما نبدأ أي تصميم أو كود.",
-    tag: "Discovery",
-  },
-  {
-    num: "02",
-    title: "تصميم يخدم الهدف",
-    text: "كل جزء في الواجهة له وظيفة واضحة: يشرح، يطمن العميل، يعرض الخدمة، أو يوصله للتواصل.",
-    tag: "Experience",
-  },
-  {
-    num: "03",
-    title: "تنفيذ قابل للتطوير",
-    text: "بنكتب كود منظم ومرن يخلي المشروع سهل يتعدل ويتطور مع نمو شغلك بعدين.",
-    tag: "Scalable Code",
-  },
-];
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Idea() {
+  const { dir, t } = useLanguage();
+  const idea = t.idea;
+
   return (
     <section
       id="idea"
-      dir="rtl"
+      dir={dir}
       className="
         relative z-10 mx-auto my-24 w-[calc(100%-120px)]
         overflow-hidden rounded-[42px] border border-white/10
@@ -35,57 +19,51 @@ export default function Idea() {
     >
       <div className="pointer-events-none absolute inset-0 opacity-50">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] bg-[size:70px_70px]" />
-        <div className="absolute left-[-120px] top-[-120px] h-[300px] w-[300px] rounded-full bg-[#7B5CFF]/20 blur-[100px]" />
-        <div className="absolute bottom-[-120px] right-[-120px] h-[300px] w-[300px] rounded-full bg-[#FF4FD8]/15 blur-[100px]" />
+        <div className="absolute -left-32 -top-32 h-72 w-72 rounded-full bg-[#7B5CFF]/20 blur-[100px]" />
+        <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-[#FF4FD8]/15 blur-[100px]" />
       </div>
 
-      <div className="relative mx-auto mb-16 max-w-[820px] text-center max-md:mb-10">
-        <span className="mb-4 inline-flex rounded-full border border-white/10 bg-white/[.06] px-5 py-2 text-sm font-black text-[#4DA3FF]">
-          الفكرة وراء التنفيذ
+      <div className="relative mx-auto mb-16 max-w-3xl text-center max-md:mb-10">
+        <span className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm font-black text-[#4DA3FF]">
+          {idea.badge}
         </span>
 
-        <h2 className="text-[clamp(34px,4vw,62px)] font-black leading-[1.18] text-white">
-          مش بنعمل شكل حلو وبس…
+        <h2 className="text-[clamp(34px,4vw,62px)] font-black leading-tight text-white">
+          {idea.title1}
           <span className="block bg-gradient-to-r from-[#4DA3FF] via-[#7B5CFF] to-[#FF4FD8] bg-clip-text text-transparent">
-            بنبني تجربة تخدم شغلك
+            {idea.title2}
           </span>
         </h2>
 
-        <p className="mx-auto mt-5 max-w-[720px] text-xl leading-[1.9] text-[#a9adbd] max-md:text-base">
-          كل مشروع بيبدأ بفهم، بعده تصميم واضح، وبعده تنفيذ منظم يخلي النتيجة
-          شكلها قوي وسهل تتطور بعد كده.
+        <p className="mx-auto mt-5 max-w-2xl text-xl leading-9 text-[#a9adbd] max-md:text-base">
+          {idea.desc}
         </p>
       </div>
 
-      <div className="relative mx-auto grid max-w-[1060px] grid-cols-[1fr_auto_1fr] gap-8 max-md:grid-cols-1">
-        <div className="pointer-events-none absolute left-1/2 top-0 h-full w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-white/20 to-transparent max-md:hidden" />
+      <div className="relative mx-auto grid max-w-5xl grid-cols-[1fr_auto_1fr] gap-8 max-md:grid-cols-1">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-white/20 to-transparent max-md:hidden" />
 
-        {ideas.map((item, index) => {
+        {idea.items.map((item, index) => {
           const rightSide = index % 2 === 0;
 
           return (
-            <div
-              key={item.num}
-              className={`
-                contents max-md:block
-              `}
-            >
+            <div key={item.num} className="contents max-md:block">
               {rightSide ? (
-                <IdeaCard item={item} align="right" />
+                <IdeaCard item={item} />
               ) : (
                 <div className="max-md:hidden" />
               )}
 
               <div className="relative z-20 flex justify-center max-md:hidden">
-                <div className="grid h-16 w-16 place-items-center rounded-full border border-white/15 bg-[#080a16] shadow-[0_0_45px_rgba(123,92,255,.30)]">
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[#4DA3FF] to-[#FF4FD8] text-xs font-black text-white">
+                <div className="grid size-16 place-items-center rounded-full border border-white/15 bg-[#080a16] shadow-[0_0_45px_rgba(123,92,255,.30)]">
+                  <span className="grid size-8 place-items-center rounded-full bg-gradient-to-br from-[#4DA3FF] to-[#FF4FD8] text-xs font-black text-white">
                     {item.num}
                   </span>
                 </div>
               </div>
 
               {!rightSide ? (
-                <IdeaCard item={item} align="left" />
+                <IdeaCard item={item} />
               ) : (
                 <div className="max-md:hidden" />
               )}
@@ -97,23 +75,22 @@ export default function Idea() {
   );
 }
 
-function IdeaCard({ item, align }) {
+function IdeaCard({ item }) {
   return (
     <article
-      className={`
+      className="
         group relative overflow-hidden rounded-[30px]
         border border-white/10 bg-[#080a16]/75
-        p-8 backdrop-blur-xl transition duration-500
+        p-8 text-start backdrop-blur-xl transition duration-500
         hover:-translate-y-2 hover:border-[#7B5CFF]/60
         hover:shadow-[0_0_70px_rgba(123,92,255,.18)]
         max-md:mb-5 max-md:p-6
-        ${align === "left" ? "text-right" : "text-right"}
-      `}
+      "
     >
-      <div className="absolute left-[-40px] top-[-40px] h-32 w-32 rounded-full bg-[#4DA3FF]/15 blur-3xl transition group-hover:bg-[#FF4FD8]/20" />
+      <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-[#4DA3FF]/15 blur-3xl transition group-hover:bg-[#FF4FD8]/20" />
 
       <div className="relative mb-7 flex items-center justify-between gap-4">
-        <span className="rounded-full border border-white/10 bg-white/[.06] px-4 py-1.5 text-xs font-black uppercase tracking-[2px] text-[#a9adbd]">
+        <span className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-black uppercase tracking-[2px] text-[#a9adbd]">
           {item.tag}
         </span>
 
@@ -122,15 +99,15 @@ function IdeaCard({ item, align }) {
         </span>
       </div>
 
-      <h3 className="relative mb-4 text-[28px] font-black text-white max-md:text-2xl">
+      <h3 className="relative mb-4 text-3xl font-black text-white max-md:text-2xl">
         {item.title}
       </h3>
 
-      <p className="relative text-[17px] leading-[1.9] text-[#a9adbd] max-md:text-base">
+      <p className="relative text-lg leading-9 text-[#a9adbd] max-md:text-base">
         {item.text}
       </p>
 
-      <span className="absolute bottom-0 right-0 h-[3px] w-0 bg-gradient-to-l from-[#4DA3FF] via-[#7B5CFF] to-[#FF4FD8] transition-all duration-500 group-hover:w-full" />
+      <span className="absolute bottom-0 right-0 h-1 w-0 bg-gradient-to-l from-[#4DA3FF] via-[#7B5CFF] to-[#FF4FD8] transition-all duration-500 group-hover:w-full" />
     </article>
   );
 }
