@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  font-family: "Tajawal", sans-serif;
+ font-family: "Cairo", sans-serif;
   color: white;
   overflow-x: hidden;
   background: #02040d;
@@ -353,6 +353,18 @@ body {
   }
 }
 
+@keyframes loaderPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 80px rgba(176, 65, 255, 0.25);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 130px rgba(47, 140, 255, 0.45);
+  }
+}
 @keyframes loaderPulse {
   0%,
   100% {

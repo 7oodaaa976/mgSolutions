@@ -66,9 +66,9 @@ export default function Works() {
           {worksText.title}
         </h2>
 
-        <p className="mt-5 text-xl leading-9 text-[#a9adbd] max-md:text-base">
+        {/* <p className="mt-5 text-xl leading-9 text-[#a9adbd] max-md:text-base">
           {worksText.desc}
-        </p>
+        </p> */}
       </div>
 
       <ProjectsGroup
